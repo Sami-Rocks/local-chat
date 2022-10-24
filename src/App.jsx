@@ -1,16 +1,33 @@
+import { useState } from 'react'
 import TextBubble from "./components/TextBubble";
 
 function App() {
+
+  const [ messages, setMessages ] = useState([
+    {
+      user: 'Kofi',
+      type: 'sender',
+      message: 'Hello!',
+      time: '21:00pm'
+    },
+    {
+      user: 'Ama',
+      type: 'reciever',
+      message: 'lorem Ipsum',
+      time: '21:10pm'
+    },
+  ])
+
   return (
     <div className="w-screen h-screen ">
       <div className="w-auto md:rounded-xl mx-auto max-w-4xl h-screen relative bg-background p-4" >
 
         <div className="flex flex-col justify-end z-1 h-full pb-14" >
-         
-          <TextBubble type={'not-user'} message={'lorem ipsum'} />
-          <TextBubble type={'user'} message={'Hello!'} />
-          <TextBubble type={'not-user'} message={'lorem ipsum'} />
-
+          {
+            messages.map(data => (
+              <TextBubble type={data.type} message={data.message} user={data.user} time={data.time} />
+            ))
+          }
         </div>
 
 
