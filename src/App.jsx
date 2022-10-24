@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MessageInput from './components/MessageInput';
 import TextBubble from "./components/TextBubble";
+import UserModal from './components/UserModal';
+import { getUser } from './utils/utilities';
 
 function App() {
   const [ inputValue, setInputValue ] = useState('')
@@ -18,7 +20,15 @@ function App() {
       time: '21:10pm'
     },
   ])
+  const [ modal, toggleModal ] = useState(false)
 
+  useEffect(()=>{
+
+    if(!getUser()){
+      toggleModal(true)
+    }
+    console.log(getUser())
+  },[])
 
   const sendMessage = (e) => {
     e.preventDefault()
@@ -26,7 +36,7 @@ function App() {
     const today = new Date()
     let minutes = today.getMinutes()
     let hour = today.getHours()
-    const new_message = {user: 'Kofi', message: inputValue, type:'sender', time: hour+':'+minutes }
+    const new_message = {user: getUser(), message: inputValue, type:'sender', time: hour+':'+minutes }
 
     temp_messages.push(new_message)
     setMessages(temp_messages)
@@ -34,6 +44,8 @@ function App() {
 
   return (
     <div className="w-screen h-screen ">
+        
+        <UserModal show={modal} toggle={toggleModal} />  
       <div className="w-auto md:rounded-xl mx-auto max-w-4xl h-screen relative bg-background p-4" >
 
         <div className="flex flex-col justify-end z-1 h-full pb-14" >
