@@ -23,11 +23,9 @@ function App() {
   const [ modal, toggleModal ] = useState(false)
 
   useEffect(()=>{
-
     if(!getUser()){
       toggleModal(true)
     }
-    console.log(getUser())
   },[])
 
   const sendMessage = (e) => {
@@ -40,6 +38,7 @@ function App() {
 
     temp_messages.push(new_message)
     setMessages(temp_messages)
+    setInputValue('')
   }
 
   return (
@@ -50,9 +49,9 @@ function App() {
 
         <div className="flex flex-col justify-end z-1 h-full pb-14" >
           {
-            messages.map(data => (
+            messages.map((data,index) => (
               <TextBubble 
-                key={data.time} 
+                key={data.time+index } 
                 type={data.type} 
                 message={data.message} 
                 user={data.user} 
