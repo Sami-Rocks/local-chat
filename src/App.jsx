@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import MessageInput from './components/MessageInput';
 import TextBubble from "./components/TextBubble";
 import UserModal from './components/UserModal';
-import { getUser } from './utils/utilities';
+import { getMessages, getUser, updateMessages } from './utils/utilities';
 
 function App() {
+  const [ modal, toggleModal ] = useState(false)
   const [ inputValue, setInputValue ] = useState('')
   const [ messages, setMessages ] = useState([
     {
@@ -20,16 +21,14 @@ function App() {
       time: '21:10pm'
     },
   ])
-  const [ modal, toggleModal ] = useState(false)
-
-  useEffect(()=>{
-    if(!getUser()){
-      toggleModal(true)
-    }
-  },[])
 
   const sendMessage = (e) => {
+  
     e.preventDefault()
+    if(inputValue.length < 1){
+      return
+    }
+
     let temp_messages = [...messages]
     const today = new Date()
     let minutes = today.getMinutes()
@@ -39,7 +38,28 @@ function App() {
     temp_messages.push(new_message)
     setMessages(temp_messages)
     setInputValue('')
+    updateMessages(new_message)
   }
+
+  useEffect(()=>{
+    if(!getUser()){
+      toggleModal(true)
+    }
+
+    setMessages(getMessages())
+  },[])
+
+  useState(()=>{
+    window.addEventListener('storage', (event) => {
+      setMessages(getMessages()) 
+    });
+
+    return window.removeEventListener('storage', ()=>{
+      console.log('done')
+    });
+  },[])
+
+
 
   return (
     <div className="w-screen h-screen ">
