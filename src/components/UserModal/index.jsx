@@ -27,8 +27,8 @@ const UserModal = ({show, toggle}) => {
             <form className='w-full text-center' >
             {error && <p className="text-red border border-red bg-red bg-opacity-10 rounded-lg text-sm p-2 w-full text-center mb-2" >{error}</p>}
               <p className='pb-10' >What shoud we call you?</p>
-              <input type="text" value={username} onChange={(e)=>setUsername(e.target.value)} className='w-full py-3 px-4 rounded-lg' />
-              <button  type="button" onClick={registerUser} className='py-3 px-4 bg-primary text-white rounded-lg w-full mt-10' >Start Chatting</button>
+              <input placeholder="username" type="text" value={username} onChange={(e)=>setUsername(e.target.value)} className='w-full py-3 px-4 rounded-lg' />
+              <button  type="submit" onClick={registerUser} className='py-3 px-4 bg-primary text-white rounded-lg w-full mt-10' >Start Chatting</button>
             </form>
           </div>
         </div>  
